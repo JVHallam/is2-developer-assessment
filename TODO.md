@@ -1,3 +1,5 @@
+test
+
 Add the xunit web dev project
 add the dependencies
 FluentAssertions 6.8.0
