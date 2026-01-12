@@ -24,13 +24,15 @@ namespace DataExporter.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPolicies()
         {
-            return Ok();
+            var results = await _policyService.ReadPoliciesAsync();
+            return Ok(results);
         }
 
         [HttpGet("{policyId}")]
         public async Task<IActionResult> GetPolicy(int policyId)
         {
-            return Ok(_policyService.ReadPolicyAsync(policyId));
+            var result = await _policyService.ReadPolicyAsync(policyId);
+            return Ok(result);
         }
 
         [HttpPost("export")]

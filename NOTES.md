@@ -65,11 +65,36 @@ Either:
 
 - If we're adding services - also add the ServiceExtensions for injecting them, rather than clogging up Program.cs
 
+- The endpoints were also returning tasks, not the result of the tasks. 
+    - The user just wants the data, not the Task object and it's internal state
+```
+{
+  "result": {
+    "id": 1,
+    "policyNumber": "HSCX1001",
+    "premium": 200,
+    "startDate": "2024-04-01T00:00:00"
+  },
+  "id": 2,
+  "exception": null,
+  "status": 5,
+  "isCanceled": false,
+  "isCompleted": true,
+  "isCompletedSuccessfully": true,
+  "creationOptions": 0,
+  "asyncState": null,
+  "isFaulted": false
+}
+```
+
 2. Implement the **GetPolicies** endpoint that should return all existing policies.
-- This is setting up for a bad time
-
-- TODO: Write up details about pagination
-
+- A raw "GetPolicies" endpoint returning all is not a good idea
+    - Users very rarely want all
+    - A query object would be a good idea or a query string
+    - Pagination is a 100% must to reduce server load in the event that they do want everything
+    - Pagination can also force the user to take smaller chunks and then rate limit them to reduce it further
+    
+- Automapper is especially useful here as it ties in quite nicely to EF. Especially around Joins which would need to be done at some point in the future.
 
 3. Implement the **PostPolicies** endpoint. It should create a new policy based on the data of the DTO it receives in the body of the call and return a read DTO, if successful. 
 4. The **Note** entity has been created, but it's not yet configured in the **ExporterDbContext**. Add the missing configuration, considering there is a one-to-many relationship between the **Policy** and the **Note** entities, and seed the database with a few notes.

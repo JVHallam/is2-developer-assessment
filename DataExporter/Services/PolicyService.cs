@@ -37,7 +37,10 @@ public class PolicyService
     /// <returns>Returns a list of ReadPoliciesDto.</returns>
     public async Task<IList<ReadPolicyDto>> ReadPoliciesAsync()
     {
-        return await Task.FromResult(new List<ReadPolicyDto>());
+        return _dbContext
+            .Policies
+            .Select(_mappingService.MapToDto)
+            .ToList();
     }
 
     /// <summary>

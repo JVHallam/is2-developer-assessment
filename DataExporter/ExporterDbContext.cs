@@ -1,7 +1,6 @@
 ﻿using DataExporter.Model;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace DataExporter
 {
     public class ExporterDbContext : DbContext
