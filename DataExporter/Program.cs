@@ -1,4 +1,4 @@
-using DataExporter.Services;
+using DataExporter.Extensions;
 
 namespace DataExporter
 {
@@ -11,8 +11,7 @@ namespace DataExporter
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<ExporterDbContext>();
-            builder.Services.AddScoped<PolicyService>();
+            builder.Services.AddDataExporterServices();
             builder.Services.AddHealthChecks();
 
             var app = builder.Build();

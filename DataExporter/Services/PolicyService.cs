@@ -7,14 +7,17 @@ public class PolicyService
 {
     private readonly ExporterDbContext _dbContext;
     private readonly ILogger<PolicyService> _logger;
+    private readonly IMappingService _mappingService;
 
     public PolicyService(
         ExporterDbContext dbContext,
-        ILogger<PolicyService> logger)
+        ILogger<PolicyService> logger,
+        IMappingService mappingService)
     {
         _dbContext = dbContext;
         _dbContext.Database.EnsureCreated();
         _logger = logger;
+        _mappingService = mappingService;
     }
 
     /// <summary>
@@ -52,14 +55,6 @@ public class PolicyService
             return null;
         }
 
-        var policyDto = new ReadPolicyDto()
-        {
-            Id = policy.Id,
-            PolicyNumber = policy.PolicyNumber,
-            Premium = policy.Premium,
-            StartDate = policy.StartDate
-        };
-
-        return policyDto;
+        return _mappingService.MapToDto(policy);
     }
 }
