@@ -6,4 +6,5 @@ namespace DataExporter.Services;
 public interface IMappingService
 {
     ReadPolicyDto MapToDto(Policy policy);
+    Policy MapToEntity(CreatePolicyDto policy);
 }

@@ -96,8 +96,29 @@ Either:
     
 - Automapper is especially useful here as it ties in quite nicely to EF. Especially around Joins which would need to be done at some point in the future.
 
+- The integration tests are a bit bare, but I was pressed for time on this one.
+
 3. Implement the **PostPolicies** endpoint. It should create a new policy based on the data of the DTO it receives in the body of the call and return a read DTO, if successful. 
+- Validation?
+    - Could have a validator
+    - Could also have validation methods to prevent nulls
+
+- Fluent Validation policies are nice, but that's down to licenses and the likes
+
+- Around the /// xml comments 
+    - I'm not a big fan. 
+    - They lead to a number of "This is a bridge" style bits of documentation
+    - Also lead to visual clutter and un-needed upkeep
+    - Tend to drift from reality
+
+- There is an integration test that asserts the ID is exactly 6. This is risky in the real world, unless you're tearing down the data between each test, not suite run.
+
+- Tests not sharing the same DTO's was a choice. Test code and application code should be allowed to grow and change independently of one another.
+
+- Idempotency not implmented as it wasn't requested. Definitely suggested with regards to policies.
+
 4. The **Note** entity has been created, but it's not yet configured in the **ExporterDbContext**. Add the missing configuration, considering there is a one-to-many relationship between the **Policy** and the **Note** entities, and seed the database with a few notes.
+
 5. Implement the **Export** endpoint. The call receives two parameters from the query string, the **startDate** and the **endDate**. The method needs to retrieve all policies that have a start date between those two dates, and all of their notes. The data should then be mapped to the **ExportDto** class and returned.
 
 ## Remarks

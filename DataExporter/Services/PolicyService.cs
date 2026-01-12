@@ -27,7 +27,16 @@ public class PolicyService
     /// <returns>Returns a ReadPolicyDto representing the new policy, if succeded. Returns null, otherwise.</returns>
     public async Task<ReadPolicyDto?> CreatePolicyAsync(CreatePolicyDto createPolicyDto)
     {
-        return await Task.FromResult(new ReadPolicyDto());
+        var policy = _mappingService.MapToEntity(createPolicyDto);
+
+        _dbContext.Policies.Add(policy);
+
+        await _dbContext.SaveChangesAsync();
+
+        //Then map to a read dto
+        var asReadDto = _mappingService.MapToDto(policy);
+
+        return asReadDto;
     }
 
     /// <summary>

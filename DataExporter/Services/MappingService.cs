@@ -15,4 +15,14 @@ public class MappingService : IMappingService
             StartDate = policy.StartDate
         };
     }
+
+    public Policy MapToEntity(CreatePolicyDto policy)
+    {
+        return new Policy
+        {
+            PolicyNumber = policy.PolicyNumber,
+            Premium = policy.Premium,
+            StartDate = policy.StartDate
+        };
+    }
 }
