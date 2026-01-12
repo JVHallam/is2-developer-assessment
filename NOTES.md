@@ -1,5 +1,10 @@
 # Data Exporter
 
+# TODO:
+- Introduce AutoMapper (If quick)
+- Clean up queries around Export
+- Refactor anything that looks potentially off
+
 # Answers:
 ## 0. Critiques
 A new project should not be allowed to have warnings at build time
