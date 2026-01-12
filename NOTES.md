@@ -10,6 +10,7 @@ operty as nullable. [C:\Git\is2-developer-assessment\DataExporter\DataExporter.c
 
 This de-sensitizes developers to actual issues.
 Handling these is especially useful as "Non-nullable" issues can save bugs down the line if dealt with ahead of time.
+It also increases visual clutter which I've found make debugging pipelines in the past to be way harder.
 
 ## 1. The **GetPolicy** method of the **PoliciesController** has already been implemented, but both itself and the **ReadPolicyAsync** function it calls from the service have some logic errors. Find and fix the logic errors and suggest any other improvements you would make to those methods, if any.
 - Why were there no checks to check for logic errors before merging?
@@ -129,13 +130,12 @@ Would have prefered to discard the explicit PolicyId field, but that would have 
 which felt like gold plating at this point for a solution that is already over-engineered.
 
 5. Implement the **Export** endpoint. The call receives two parameters from the query string, the **startDate** and the **endDate**. The method needs to retrieve all policies that have a start date between those two dates, and all of their notes. The data should then be mapped to the **ExportDto** class and returned.
-
+- **Question for the product team** What is meant by "Between those two dates"?
+    - Given 2025-01-01 as the start date
+    - And 2025-01-10 as the end date
+    - Should we return up to the 10th, or up to and including the 10th?
+    - At the moment it's up to and including the exact date time
+    
 - Changed endpoint from post to get as we're using a query string, it seems odd to use a post instead
 - Pagination should be considered here - Dates may make it safe though if they're required to be narrow enough
 - The endpoint could also use a request model instead, it's far easier and cleaner to pass things around that way
-
-## Remarks
-
-- The tasks can be completed in any order.
-- Any third party library can be used to implement some of the functionality required.
-- To test the API, any tool like cURL or Postman can be used and the scripts should be included in the submission.

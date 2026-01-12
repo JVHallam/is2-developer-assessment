@@ -132,8 +132,8 @@ public class ApiTests
     public async Task GivenTwoDates_WhenExportDataCalled_ReturnsPoliciesAndNotes()
     {
         //Arrange
-        var startDate = "2025-04-01";
-        var endDate = "2025-04-05";
+        var startDate = "2024-04-01";
+        var endDate = "2024-04-05";
 
         var url = $"/policies/export?startDate={startDate}&endDate={endDate}";
 
@@ -158,19 +158,19 @@ public class ApiTests
         Assert.Equal("This is a second note", bodyContent[0].Notes[1]);
 
         //2
-        Assert.Equal("HSCX1002", bodyContent[0].PolicyNumber);
-        Assert.Equal(153, bodyContent[0].Premium);
-        Assert.Equal(new DateTime(2024, 4, 5), bodyContent[0].StartDate);
-        Assert.Equal(2, bodyContent[0].Notes.Count);
-        Assert.Equal("This is a test note", bodyContent[0].Notes[0]);
-        Assert.Equal("This is a second note", bodyContent[0].Notes[1]);
+        Assert.Equal("HSCX1002", bodyContent[1].PolicyNumber);
+        Assert.Equal(153, bodyContent[1].Premium);
+        Assert.Equal(new DateTime(2024, 4, 5), bodyContent[1].StartDate);
+        Assert.Equal(2, bodyContent[1].Notes.Count);
+        Assert.Equal("This is a test note", bodyContent[1].Notes[0]);
+        Assert.Equal("This is a second note", bodyContent[1].Notes[1]);
 
         //5
-        Assert.Equal("HSCX1005", bodyContent[0].PolicyNumber);
-        Assert.Equal(100, bodyContent[0].Premium);
-        Assert.Equal(new DateTime(2024, 4, 1), bodyContent[0].StartDate);
-        Assert.Equal(2, bodyContent[0].Notes.Count);
-        Assert.Equal("This is a test note", bodyContent[0].Notes[0]);
-        Assert.Equal("This is a second note", bodyContent[0].Notes[1]);
+        Assert.Equal("HSCX1005", bodyContent[2].PolicyNumber);
+        Assert.Equal(100, bodyContent[2].Premium);
+        Assert.Equal(new DateTime(2024, 4, 1), bodyContent[2].StartDate);
+        Assert.Equal(2, bodyContent[2].Notes.Count);
+        Assert.Equal("This is a test note", bodyContent[2].Notes[0]);
+        Assert.Equal("This is a second note", bodyContent[2].Notes[1]);
     }
 }

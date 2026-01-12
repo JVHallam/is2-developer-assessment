@@ -83,7 +83,7 @@ public class PolicyService : IPolicyService
 
         var policies = await _dbContext
             .Policies
-            .Take(3)
+            .Where(p => fromDate <= p.StartDate && p.StartDate <= toDate)
             .ToListAsync();
 
         foreach(var policy in policies)
