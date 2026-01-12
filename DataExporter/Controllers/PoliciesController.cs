@@ -37,10 +37,15 @@ namespace DataExporter.Controllers
             return Ok(result);
         }
 
-        [HttpPost("export")]
+        [HttpGet("export")]
         public async Task<IActionResult> ExportData([FromQuery]DateTime startDate, [FromQuery] DateTime endDate)
         {
-            return Ok();
+            var a = new List<ExportDto>()
+            {
+                new ExportDto()
+            };
+
+            return Ok(a);
         }
     }
 }
