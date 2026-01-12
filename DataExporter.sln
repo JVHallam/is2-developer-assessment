@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataExporter", "DataExporter\DataExporter.csproj", "{29954754-8483-4EC2-AD0F-78892FAC1393}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1BA7487F-1B67-4833-820E-FF4DF438E7BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataExporter.Tests.Integration", "test\DataExporter.Tests.Integration\DataExporter.Tests.Integration.csproj", "{1010497C-A482-4463-B234-1F2BBF82861C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +19,18 @@ Global
 		{29954754-8483-4EC2-AD0F-78892FAC1393}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29954754-8483-4EC2-AD0F-78892FAC1393}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29954754-8483-4EC2-AD0F-78892FAC1393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1010497C-A482-4463-B234-1F2BBF82861C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1010497C-A482-4463-B234-1F2BBF82861C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1010497C-A482-4463-B234-1F2BBF82861C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1010497C-A482-4463-B234-1F2BBF82861C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EDF19FDE-52DE-45E1-B7D5-0C581DDF25F3}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1010497C-A482-4463-B234-1F2BBF82861C} = {1BA7487F-1B67-4833-820E-FF4DF438E7BE}
 	EndGlobalSection
 EndGlobal

@@ -21,7 +21,6 @@ namespace DataExporter.Controllers
             return Ok();
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetPolicies()
         {
@@ -29,11 +28,10 @@ namespace DataExporter.Controllers
         }
 
         [HttpGet("{policyId}")]
-        public async Task<IActionResult> GetPolicy(int id)
+        public async Task<IActionResult> GetPolicy(int policyId)
         {
-            return Ok(_policyService.ReadPolicyAsync(id));
+            return Ok(_policyService.ReadPolicyAsync(policyId));
         }
-
 
         [HttpPost("export")]
         public async Task<IActionResult> ExportData([FromQuery]DateTime startDate, [FromQuery] DateTime endDate)
