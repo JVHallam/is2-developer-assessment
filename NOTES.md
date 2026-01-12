@@ -14,6 +14,7 @@ Handling these is especially useful as "Non-nullable" issues can save bugs down 
 ## 1. The **GetPolicy** method of the **PoliciesController** has already been implemented, but both itself and the **ReadPolicyAsync** function it calls from the service have some logic errors. Find and fix the logic errors and suggest any other improvements you would make to those methods, if any.
 - Why were there no checks to check for logic errors before merging?
 - Unit tests? Services without unit tests are not ideal, especially now bugs need to be fixed.
+- Policy Service should have an interface and the controller should depend on that interface, not the implementation.
 
 The following code is redundant, as Single will throw an exception of nothing is found, or more than one is found.
 ```
@@ -130,7 +131,7 @@ which felt like gold plating at this point for a solution that is already over-e
 5. Implement the **Export** endpoint. The call receives two parameters from the query string, the **startDate** and the **endDate**. The method needs to retrieve all policies that have a start date between those two dates, and all of their notes. The data should then be mapped to the **ExportDto** class and returned.
 
 - Changed endpoint from post to get as we're using a query string, it seems odd to use a post instead
-- Again, pagination would be a must here
+- Pagination should be considered here - Dates may make it safe though if they're required to be narrow enough
 
 ## Remarks
 

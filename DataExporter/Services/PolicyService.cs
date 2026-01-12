@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataExporter.Services;
 
-public class PolicyService
+public class PolicyService : IPolicyService
 {
     private readonly ExporterDbContext _dbContext;
     private readonly ILogger<PolicyService> _logger;
@@ -68,5 +68,35 @@ public class PolicyService
         }
 
         return _mappingService.MapToDto(policy);
+    }
+
+    /// <summary>
+    /// Get all policies and their notes.
+    /// </summary>
+    /// <param name="fromDate"></param>
+    /// <param name="toDate"></param>
+    /// <returns>Returns all policies and their notes within a particular range.</returns>
+    public async Task<List<ExportDto>> GetExportDataAsync(DateTime fromDate, DateTime toDate)
+    {
+        //Validate the 2 dates aren't backward
+        var exportDtos = new List<ExportDto>();
+
+        var policies = await _dbContext
+            .Policies
+            .Take(3)
+            .ToListAsync();
+
+        foreach(var policy in policies)
+        {
+            exportDtos.Add(new ExportDto());
+        }
+
+        //Then you'll want to perform a join? Or another select?
+
+        //Then map that data onto export dtos
+
+        //Then you're returning that
+
+        return exportDtos;
     }
 }

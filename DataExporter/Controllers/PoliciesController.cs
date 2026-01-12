@@ -8,9 +8,9 @@ namespace DataExporter.Controllers
     [Route("[controller]")]
     public class PoliciesController : ControllerBase
     {
-        private PolicyService _policyService;
+        private IPolicyService _policyService;
 
-        public PoliciesController(PolicyService policyService) 
+        public PoliciesController(IPolicyService policyService) 
         { 
             _policyService = policyService;
         }

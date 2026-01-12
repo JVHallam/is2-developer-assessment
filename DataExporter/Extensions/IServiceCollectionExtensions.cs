@@ -8,8 +8,8 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection AddDataExporterServices(this IServiceCollection services)
     {
         services.AddDbContext<ExporterDbContext>();
-        services.AddScoped<PolicyService>();
-        services.AddSingleton<IMappingService, MappingService>();
+        services.AddScoped<IPolicyService, PolicyService>();
+        services.AddScoped<IMappingService, MappingService>();
 
         return services;
     }
