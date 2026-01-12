@@ -88,14 +88,18 @@ public class PolicyService : IPolicyService
 
         foreach(var policy in policies)
         {
-            exportDtos.Add(new ExportDto());
+            var exportDto = _mappingService.MapToExportDto(policy);
+
+            var notes = await _dbContext
+                .Notes
+                .Where(x => x.PolicyId == policy.Id)
+                .Select(x => x.Text)
+                .ToListAsync();
+
+            exportDto.Notes = notes;
+
+            exportDtos.Add(exportDto);
         }
-
-        //Then you'll want to perform a join? Or another select?
-
-        //Then map that data onto export dtos
-
-        //Then you're returning that
 
         return exportDtos;
     }

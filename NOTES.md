@@ -132,6 +132,7 @@ which felt like gold plating at this point for a solution that is already over-e
 
 - Changed endpoint from post to get as we're using a query string, it seems odd to use a post instead
 - Pagination should be considered here - Dates may make it safe though if they're required to be narrow enough
+- The endpoint could also use a request model instead, it's far easier and cleaner to pass things around that way
 
 ## Remarks
 

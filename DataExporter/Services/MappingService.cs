@@ -25,4 +25,15 @@ public class MappingService : IMappingService
             StartDate = policy.StartDate
         };
     }
+
+    public ExportDto MapToExportDto(Policy policy)
+    {
+        return new ExportDto()
+        {
+            PolicyNumber = policy.PolicyNumber,
+            Premium = policy.Premium,
+            StartDate = policy.StartDate,
+            Notes = new List<string>()
+        };
+    }
 }

@@ -7,4 +7,5 @@ public interface IMappingService
 {
     ReadPolicyDto MapToDto(Policy policy);
     Policy MapToEntity(CreatePolicyDto policy);
+    ExportDto MapToExportDto(Policy policy);
 }
