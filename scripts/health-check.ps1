@@ -1,0 +1,1 @@
+iwr -SkipCertificateCheck "https://localhost:7246/healthcheck";

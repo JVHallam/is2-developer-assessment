@@ -13,6 +13,7 @@ namespace DataExporter
             builder.Services.AddControllers();
             builder.Services.AddDbContext<ExporterDbContext>();
             builder.Services.AddScoped<PolicyService>();
+            builder.Services.AddHealthChecks();
 
             var app = builder.Build();
 
@@ -21,8 +22,7 @@ namespace DataExporter
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-
+            app.MapHealthChecks("/healthcheck");
             app.MapControllers();
 
             app.Run();
