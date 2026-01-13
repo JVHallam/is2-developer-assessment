@@ -1,7 +1,6 @@
 # Data Exporter
 
 # TODO:
-- Introduce AutoMapper (If quick)
 - Clean up queries around Export
 - Refactor anything that looks potentially off
 - Cleanup this doc

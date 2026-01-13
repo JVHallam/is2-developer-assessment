@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DataExporter.Model;
+using AutoMapper.QueryableExtensions;
 
 namespace DataExporter.Services;
 
@@ -82,26 +83,11 @@ public class PolicyService : IPolicyService
         //Validate the 2 dates aren't backward
         var exportDtos = new List<ExportDto>();
 
-        var policies = await _dbContext
+        return await _dbContext
             .Policies
+            .Include(x => x.Notes)
             .Where(p => fromDate <= p.StartDate && p.StartDate <= toDate)
+            .ProjectTo<ExportDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
-
-        foreach(var policy in policies)
-        {
-            var exportDto = _mapper.Map<ExportDto>(policy);
-
-            var notes = await _dbContext
-                .Notes
-                .Where(x => x.PolicyId == policy.Id)
-                .Select(x => x.Text)
-                .ToListAsync();
-
-            exportDto.Notes = notes;
-
-            exportDtos.Add(exportDto);
-        }
-
-        return exportDtos;
     }
 }

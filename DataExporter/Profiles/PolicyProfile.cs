@@ -11,5 +11,7 @@ public class PolicyProfile : Profile
         CreateMap<Policy, ReadPolicyDto>();
         CreateMap<CreatePolicyDto, Policy>();
         CreateMap<Policy, ExportDto>();
+        CreateMap<Note, string>()
+            .ConvertUsing(src => src.Text);
     }
 }
