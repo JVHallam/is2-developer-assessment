@@ -1,5 +1,7 @@
 ﻿using DataExporter.Dtos;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using DataExporter.Model;
 
 namespace DataExporter.Services;
 
@@ -7,17 +9,17 @@ public class PolicyService : IPolicyService
 {
     private readonly ExporterDbContext _dbContext;
     private readonly ILogger<PolicyService> _logger;
-    private readonly IMappingService _mappingService;
+    private readonly IMapper _mapper;
 
     public PolicyService(
         ExporterDbContext dbContext,
         ILogger<PolicyService> logger,
-        IMappingService mappingService)
+        IMapper mapper)
     {
         _dbContext = dbContext;
         _dbContext.Database.EnsureCreated();
         _logger = logger;
-        _mappingService = mappingService;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -27,14 +29,13 @@ public class PolicyService : IPolicyService
     /// <returns>Returns a ReadPolicyDto representing the new policy, if succeded. Returns null, otherwise.</returns>
     public async Task<ReadPolicyDto?> CreatePolicyAsync(CreatePolicyDto createPolicyDto)
     {
-        var policy = _mappingService.MapToEntity(createPolicyDto);
+        var policy = _mapper.Map<Policy>(createPolicyDto);
 
         _dbContext.Policies.Add(policy);
 
         await _dbContext.SaveChangesAsync();
 
-        //Then map to a read dto
-        var asReadDto = _mappingService.MapToDto(policy);
+        var asReadDto = _mapper.Map<ReadPolicyDto>(policy);
 
         return asReadDto;
     }
@@ -48,7 +49,7 @@ public class PolicyService : IPolicyService
     {
         return _dbContext
             .Policies
-            .Select(_mappingService.MapToDto)
+            .Select(_mapper.Map<ReadPolicyDto>)
             .ToList();
     }
 
@@ -67,7 +68,7 @@ public class PolicyService : IPolicyService
             return null;
         }
 
-        return _mappingService.MapToDto(policy);
+        return _mapper.Map<ReadPolicyDto>(policy);
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class PolicyService : IPolicyService
 
         foreach(var policy in policies)
         {
-            var exportDto = _mappingService.MapToExportDto(policy);
+            var exportDto = _mapper.Map<ExportDto>(policy);
 
             var notes = await _dbContext
                 .Notes

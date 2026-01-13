@@ -4,6 +4,7 @@
 - Introduce AutoMapper (If quick)
 - Clean up queries around Export
 - Refactor anything that looks potentially off
+- Cleanup this doc
 
 # Answers:
 ## 0. Critiques
@@ -134,7 +135,7 @@ public virtual Policy Policy { get; set; }
 Would have prefered to discard the explicit PolicyId field, but that would have required writing a seperate Database Seeding method, 
 which felt like gold plating at this point for a solution that is already over-engineered.
 
-5. Implement the **Export** endpoint. The call receives two parameters from the query string, the **startDate** and the **endDate**. The method needs to retrieve all policies that have a start date between those two dates, and all of their notes. The data should then be mapped to the **ExportDto** class and returned.
+# 5. Implement the **Export** endpoint. The call receives two parameters from the query string, the **startDate** and the **endDate**. The method needs to retrieve all policies that have a start date between those two dates, and all of their notes. The data should then be mapped to the **ExportDto** class and returned.
 - **Question for the product team** What is meant by "Between those two dates"?
     - Given 2025-01-01 as the start date
     - And 2025-01-10 as the end date
@@ -144,3 +145,10 @@ which felt like gold plating at this point for a solution that is already over-e
 - Changed endpoint from post to get as we're using a query string, it seems odd to use a post instead
 - Pagination should be considered here - Dates may make it safe though if they're required to be narrow enough
 - The endpoint could also use a request model instead, it's far easier and cleaner to pass things around that way
+
+
+# Additional notes and cleanup
+Automapper version 14.0.0 was used as 15.0.0 requires a paid license.
+In the future, use of automapper should be considered and a license purchased, an alternative chosen or use phased out.
+Automapper was selected for it's EF support.
+- Scratch that, 13.0.1 was used as 14 doesn't support .net 6
