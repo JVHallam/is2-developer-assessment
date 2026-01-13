@@ -11,6 +11,7 @@ public static class IServiceCollectionExtensions
     {
         services.AddDbContext<ExporterDbContext>();
         services.AddScoped<IPolicyService, PolicyService>();
+        services.AddScoped<IValidationService, ValidationService>();
         services.AddAutoMapper(cfg =>
         {
             cfg.AddProfile<PolicyProfile>();

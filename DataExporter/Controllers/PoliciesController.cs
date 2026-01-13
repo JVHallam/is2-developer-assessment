@@ -9,10 +9,14 @@ namespace DataExporter.Controllers
     public class PoliciesController : ControllerBase
     {
         private IPolicyService _policyService;
+        private IValidationService _validationService;
 
-        public PoliciesController(IPolicyService policyService) 
+        public PoliciesController(
+            IPolicyService policyService,
+            IValidationService validationService) 
         { 
             _policyService = policyService;
+            _validationService = validationService;
         }
 
         [HttpPost]
@@ -40,6 +44,7 @@ namespace DataExporter.Controllers
         [HttpGet("export")]
         public async Task<IActionResult> ExportData([FromQuery]DateTime startDate, [FromQuery] DateTime endDate)
         {
+            _validationService.ThrowIfStartDateAfterToDate(startDate, endDate);
             var results = await _policyService.GetExportDataAsync(startDate, endDate);
             return Ok(results);
         }

@@ -80,9 +80,6 @@ public class PolicyService : IPolicyService
     /// <returns>Returns all policies and their notes within a particular range.</returns>
     public async Task<List<ExportDto>> GetExportDataAsync(DateTime fromDate, DateTime toDate)
     {
-        //Validate the 2 dates aren't backward
-        var exportDtos = new List<ExportDto>();
-
         return await _dbContext
             .Policies
             .Include(x => x.Notes)
