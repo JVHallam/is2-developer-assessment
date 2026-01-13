@@ -1,13 +1,12 @@
 # Data Exporter
 
-# TODO:
-- Clean up queries around Export
-- Refactor anything that looks potentially off
-- Cleanup this doc
+## Notes around testing
+An integration test project was introduced in /test/DataExporter.Tests.Integration.
+This is how I preformed 90% of my testing. I also used a little postman, but the collection was so basic I didn't include it.
 
 # Answers:
 ## 0. Critiques
-A new project should not be allowed to have warnings at build time
+A new project should not be allowed to have warnings at build time. Namely things like:
 ```
 C:\Git\is2-developer-assessment\DataExporter\Dtos\ReadPolicyDto.cs(6,23): warning CS8618: Non-nullable property 'PolicyNumber' must contain a non-null value when exiting constructor. Consider declaring the pr
 operty as nullable. [C:\Git\is2-developer-assessment\DataExporter\DataExporter.csproj]
@@ -18,9 +17,12 @@ Handling these is especially useful as "Non-nullable" issues can save bugs down 
 It also increases visual clutter which I've found make debugging pipelines in the past to be way harder.
 
 ## 1. The **GetPolicy** method of the **PoliciesController** has already been implemented, but both itself and the **ReadPolicyAsync** function it calls from the service have some logic errors. Find and fix the logic errors and suggest any other improvements you would make to those methods, if any.
+Questions for the team:
 - Why were there no checks to check for logic errors before merging?
 - Unit tests? Services without unit tests are not ideal, especially now bugs need to be fixed.
-- Policy Service should have an interface and the controller should depend on that interface, not the implementation.
+
+PoliciesController depended on PolicyServices directly, I changed it to depend on an interface instead.
+It's best practise to follow dependency inversion when constructing classes.
 
 The following code is redundant, as Single will throw an exception of nothing is found, or more than one is found.
 ```
@@ -44,6 +46,7 @@ private readonly ExporterDbContext _dbContext;
 ```
 
 The block scoped namespaces are antiquated. File scoped namespaces have become the norm.
+I began using them on classes I touched.
 
 In the controller, there's a mismatch between the names.
 ```
@@ -61,14 +64,12 @@ There's manual mapping done within PolicyService.
             StartDate = policy.StartDate
         };
 ```
-Either:
-- Move this to it's own mapping class
-- Pull in a framework like automapper and have a mapping profile for it
+I have moved this to be an automapper mapping instead.
 
-- If we're adding services - also add the ServiceExtensions for injecting them, rather than clogging up Program.cs
+If we're adding services - also add the ServiceExtensions for injecting them, rather than clogging up Program.cs
 
-- The endpoints were also returning tasks, not the result of the tasks. 
-    - The user just wants the data, not the Task object and it's internal state
+The endpoints were also returning tasks, not the result of the tasks. 
+The fix was just to await the task.
 ```
 {
   "result": {
@@ -96,8 +97,6 @@ Either:
     - Pagination is a 100% must to reduce server load in the event that they do want everything
     - Pagination can also force the user to take smaller chunks and then rate limit them to reduce it further
     
-- Automapper is especially useful here as it ties in quite nicely to EF. Especially around Joins which would need to be done at some point in the future.
-
 - The integration tests are a bit bare, but I was pressed for time on this one.
 
 # 3. Implement the **PostPolicies** endpoint. It should create a new policy based on the data of the DTO it receives in the body of the call and return a read DTO, if successful. 
@@ -120,7 +119,6 @@ Either:
 - Idempotency not implmented as it wasn't requested. Definitely suggested with regards to policies.
 
 # 4. The **Note** entity has been created, but it's not yet configured in the **ExporterDbContext**. Add the missing configuration, considering there is a one-to-many relationship between the **Policy** and the **Note** entities, and seed the database with a few notes.
-
 - Take the Note Entity
 - Add it to the ExporterDbContext
 - One to many relationship between Policy and note
@@ -144,6 +142,7 @@ which felt like gold plating at this point for a solution that is already over-e
 - Changed endpoint from post to get as we're using a query string, it seems odd to use a post instead
 - Pagination should be considered here - Dates may make it safe though if they're required to be narrow enough
 - The endpoint could also use a request model instead, it's far easier and cleaner to pass things around that way
+- The use of automapper here is nice, especially with ProjectTo and navigation properties
 
 
 # Additional notes and cleanup
@@ -151,3 +150,11 @@ Automapper version 14.0.0 was used as 15.0.0 requires a paid license.
 In the future, use of automapper should be considered and a license purchased, an alternative chosen or use phased out.
 Automapper was selected for it's EF support.
 - Scratch that, 13.0.1 was used as 14 doesn't support .net 6
+
+Suggestions for the future:
+- FluentValidation is a very nice way to write specs, would definitely recommend it.
+- Middleware for handling exceptions and wrapping them up and turning them into nice user messages - hellang is popular in this regard
+- The project also lacks unit testing, but would have taken up too much time to introduce
+- E2E testing too with docker instances would have been prefered
+- Seeding data in a hardcoded manor like this is nice for a tech test would be better to have a solo project for that in the future
+    - The test project should be the one seeding test data, rather than the actual API
